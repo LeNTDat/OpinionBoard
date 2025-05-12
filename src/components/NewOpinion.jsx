@@ -6,19 +6,9 @@ export function NewOpinion() {
     const {title, userName, body} = data;
     let errors = {};
 
-    if(!title){
-      errors.title = true
+    if(!title || !userName || !body){
+      errors.errMessage = "Please enter the information !"
     }
-
-    if(!userName){
-      errors.userName = true
-    }
-
-    if(!body){
-      errors.body = true
-    }
-
-
     return {errors}
   }
   
@@ -31,19 +21,20 @@ export function NewOpinion() {
       <form action={formAction}>
         <div className="control-row">
           <p className="control">
-            <label  title="Enter the UserName please" htmlFor="userName">Your Name</label>
-            <input required ={formState?.errors?.userName} title="Enter the UserName please" type="text" id="userName" name="userName" />
+            <label htmlFor="userName">Your Name</label>
+            <input type="text" id="userName" name="userName"/>
           </p>
 
           <p className="control">
             <label htmlFor="title">Title</label>
-            <input required ={formState?.errors?.title} type="text" id="title" name="title" />
+            <input type="text" id="title" name="title" />
           </p>
         </div>
         <p className="control">
           <label htmlFor="body">Your Opinion</label>
-          <textarea required ={formState?.errors?.body} id="body" name="body" rows={5}></textarea>
+          <textarea id="body" name="body" rows={5}></textarea>
         </p>
+        <p className="errors">{formState?.errors?.errMessage}</p>
 
         <p className="actions">
           <button type="submit">Submit</button>
