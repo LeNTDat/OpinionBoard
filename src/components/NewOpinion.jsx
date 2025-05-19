@@ -1,14 +1,22 @@
-import { useActionState } from "react";
-
+import { useActionState, useState } from "react";
+import {useFormContext} from "../store/opinions-context"
+import Submit from "./Submit";
 export function NewOpinion() {
-  const onSubmitAction = (prev, fromData)=>{
+  const {
+    addOpinion
+  } = useFormContext();
+  
+
+  const onSubmitAction = async (prev, fromData)=>{
     const data = Object.fromEntries(fromData.entries())
     const {title, userName, body} = data;
     let errors = {};
 
     if(!title || !userName || !body){
       errors.errMessage = "Please enter the information !"
+      return {errors}
     }
+    await addOpinion({title, userName, body})
     return {errors}
   }
   
@@ -37,7 +45,7 @@ export function NewOpinion() {
         <p className="errors">{formState?.errors?.errMessage}</p>
 
         <p className="actions">
-          <button type="submit">Submit</button>
+          <Submit />
         </p>
       </form>
     </div>
